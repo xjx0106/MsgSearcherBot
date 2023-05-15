@@ -1,11 +1,18 @@
 const bot = require('../index.js');
 const {
 	saveData,
-	getData
+	getData,
+	checkRights
 } = require('../utils/index');
 
 module.exports = bot.onText(/\/search/, onLoveText = async (msg) => {
-	saveData([], "msg/temp");
+	const isAdmin = await checkRights(msg.from.id);
+	if (!isAdmin) {
+		await bot.sendMessage(msg.chat.id, "這是個人使用的bot，你没有权限。");
+		return;
+	}
+
+	saveData([], "tempMsgList");
 	const data = getData('msg/result');
 	const messageList = data.messages ?  data.messages : [];
 

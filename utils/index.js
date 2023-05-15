@@ -21,7 +21,26 @@ const getData = (name = "1") => {
 	return data;
 };
 
+/**
+ * 檢測用戶的權限
+ * @param { Number } userId 發起者的id
+ * @returns 返回這個用戶是否是有權之人
+ */
+const checkRights = async (userId) => {
+	let hasRight = false;
+
+	const rights = getData("right");
+	if (rights.includes[userId]) {
+		hasRight = true;
+	} else {
+		hasRight = false;
+	}
+
+	return hasRight;
+}
+
 module.exports = {
 	saveData,
-	getData
+	getData,
+	checkRights
 };

@@ -27,10 +27,11 @@ const getData = (name = "1") => {
  * @returns 返回這個用戶是否是有權之人
  */
 const checkRights = async (userId) => {
+	const userIdStr = userId + "";
 	let hasRight = false;
 
 	const rights = getData("right");
-	if (rights.includes[userId]) {
+	if (rights.includes(userIdStr)) {
 		hasRight = true;
 	} else {
 		hasRight = false;

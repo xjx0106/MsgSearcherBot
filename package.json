@@ -8,6 +8,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
     "node-telegram-bot-api": "^0.59.0"
   },
   "repository": {

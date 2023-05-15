@@ -1,0 +1,24 @@
+{
+  "name": "msgsearcherbot",
+  "version": "1.0.0",
+  "description": "A bot for searching telegram message records.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.59.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjx0106/MsgSearcherBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xjx0106/MsgSearcherBot/issues"
+  },
+  "homepage": "https://github.com/xjx0106/MsgSearcherBot#readme"
+}

@@ -7,7 +7,7 @@ const {
 module.exports = bot.onText(/\/search/, onLoveText = async (msg) => {
 	saveData([], "msg/temp");
 	const data = getData('msg/result');
-	const messageList = data.messages;
+	const messageList = data.messages ?  data.messages : [];
 
 	const originText = msg.text + "";
 	console.log("[originText]->", originText);

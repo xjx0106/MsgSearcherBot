@@ -8,3 +8,4 @@ module.exports = new TelegramBot(TELEGRAM_BOT_TOKEN, {
 });
 
 require('./src/seacher');
+require('./src/callback-manage');

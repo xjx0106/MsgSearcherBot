@@ -1,5 +1,5 @@
 const fs = require('fs');
-const bot = require('../index');
+// const bot = require('../index');
 
 /**
  * 保存文件
@@ -27,10 +27,10 @@ const getData = (name = "1") => {
  * @returns 返回這個用戶是否是有權之人
  */
 const checkRights = async (userId) => {
-	const userIdStr = userId + "";
+	const userIdStr = userId + ""; // "1111111"
 	let hasRight = false;
 
-	const rights = getData("right");
+	const rights = getData("right"); // right.json文件裏包含了允許使用這個bot的用戶id字符串，rights如["1111111", "2222222", "3333333"]
 	if (rights.includes(userIdStr)) {
 		hasRight = true;
 	} else {

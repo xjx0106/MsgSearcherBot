@@ -12,18 +12,17 @@ module.exports = bot.onText(/\/search/, onLoveText = async (msg) => {
 		return;
 	}
 
-	await saveData([], "tempMsgList"); // 清空臨時搜索結果
+	await saveData({
+		list: [],
+		text: ""
+	}, "tempMsgList"); // 清空臨時搜索結果
 	const data = getData('msg/result');
 	const messageList = data.messages ? data.messages : [];
 
 	const originText = msg.text + "";
-	console.log("[originText]->", originText);
 	const text = originText.length === '/search'.length ? '' : originText.replace("/search ", "");
-	console.log("[target]->", text);
-	console.log("[target.length]->", text.length);
 
 	if (text) {
-		console.log("[messageList]->", messageList.length);
 		const msgsWithTarget = messageList.filter(msgItem => {
 			const textEntities = msgItem.text_entities || [];
 			const one = textEntities.find(entity => entity.text.includes(text));
@@ -34,7 +33,10 @@ module.exports = bot.onText(/\/search/, onLoveText = async (msg) => {
 			}
 		})
 
-		await saveData(msgsWithTarget, "tempMsgList"); // 將臨時搜索結果保存到tempMsgList.json文件裏
+		await saveData({
+			list: msgsWithTarget,
+			text
+		}, "tempMsgList"); // 將臨時搜索結果保存到tempMsgList.json文件裏
 		queryTempMsg(msg.chat.id);
 
 	} else {
@@ -52,7 +54,11 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 	page: 1,
 	size: 10
 }) => {
-	const msgsWithTarget = await getData("tempMsgList"); // 包含了目標搜索詞的、臨時儲存著的消息
+	const tempMsgListData = await getData("tempMsgList"); // 包含了目標搜索詞的、臨時儲存著的消息
+	const {
+		list: msgsWithTarget,
+		text
+	} = tempMsgListData;
 	const {
 		page,
 		size
@@ -71,6 +77,8 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 		const line = "[" + item.from + "]:" + item.text_entities.map(ent => ent.text).join(' ') + "--------" + item.date;
 		content += line + '\n\n';
 	});
+
+	content = content.split(text).join("<b>" + text + "</b>");
 
 	content += '-----------------\n共有 ' + msgsWithTarget.length + " 條, 當前是第 " + page + " 頁，每頁展示 " + size + " 條";
 

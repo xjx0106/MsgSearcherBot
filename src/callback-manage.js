@@ -9,7 +9,7 @@ const {
 } = require("./seacher")
 
 
-module.exports = bot.on("callback_query", onLoveText = (msg) => {
+module.exports = bot.on("callback_query", onLoveText = async (msg) => {
     const data = msg.data;
     const messageId = msg.message.message_id;
 
@@ -20,6 +20,12 @@ module.exports = bot.on("callback_query", onLoveText = (msg) => {
         s: size,
         t: type
     } = dataObj; // 從json對象裏解構出c、p、s、t，并且重命名為chatId、page、size、type
+
+    const tempMsgListData = await getData("tempMsgList"); // 包含了目標搜索詞的、臨時儲存著的消息
+    const {
+        list: msgsWithTarget,
+    } = tempMsgListData;
+    const totalPage = Math.ceil(msgsWithTarget.length / size);
 
     if (type === "pre") {
         // 上一頁
@@ -32,10 +38,12 @@ module.exports = bot.on("callback_query", onLoveText = (msg) => {
         }
     } else if (type === 'nex') {
         // 下一頁
-        const newPage = page + 1;
-        queryTempMsg(chatId, messageId, {
-            page: newPage,
-            size
-        });
+        if (page < totalPage) {
+            const newPage = page + 1;
+            queryTempMsg(chatId, messageId, {
+                page: newPage,
+                size
+            });
+        }
     }
 });

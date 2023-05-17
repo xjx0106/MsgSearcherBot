@@ -74,7 +74,7 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 		/**
 		 * 單條記錄要展示的行
 		 */
-		const line = "【" + ((page - 1) * size + (index + 1)) + "】 [" + item.from + "]:" + item.text_entities.map(ent => ent.text).join(' ') + " -------- " + item.date;
+		const line = "【" + ((page - 1) * size + (index + 1)) + "】 [" + item.from + "]:" + item.text_entities.map(ent => ent.text).join(' ') + "  --------  " + item.date.replace("T", " ");
 		content += line + '\n\n';
 	});
 

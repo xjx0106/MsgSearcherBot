@@ -85,7 +85,7 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 	content += pagesLine;
 
 	const totalPage = Math.ceil(msgsWithTarget.length / size);
-	content += '\n=============================\n共有 ' + msgsWithTarget.length + " 條, 頁數 " + page + " / " + totalPage + " 頁，每頁展示 " + size + " 條";
+	content += '=============================\n共有 ' + msgsWithTarget.length + " 條, 頁數 " + page + " / " + totalPage + " 頁，每頁展示 " + size + " 條";
 
 
 	const callbackData1 = {
@@ -201,7 +201,11 @@ const generatePageNumberList = (page, size, totalCount) => {
 			result = pageNumberList.slice(page - 4 - 1, page + 4);
 		}
 	}
-	return result.join("    ");;
+	if(totalCount <= 10) {
+		// 條數小於10，便無需展示翻頁
+		result = "";
+	}
+	return result.join("    ") + "\n";
 }
 
 module.exports = {

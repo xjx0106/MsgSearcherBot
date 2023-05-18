@@ -203,7 +203,7 @@ const generatePageNumberList = (page, size, totalCount) => {
 	}
 	if(totalCount <= 10) {
 		// 條數小於10，便無需展示翻頁
-		result = "";
+		result = [];
 	}
 	return result.join("    ") + "\n";
 }

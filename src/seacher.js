@@ -44,6 +44,46 @@ module.exports = bot.onText(/\/search/, onLoveText = async (msg) => {
 	}
 });
 
+module.exports = bot.on("message", async msg => {
+	const isAdmin = await checkRights(msg.from.id);
+	if (!isAdmin) {
+		await bot.sendMessage(msg.chat.id, "這是個人使用的bot，你没有权限。");
+		return;
+	}
+
+	await saveData({
+		list: [],
+		text: ""
+	}, "tempMsgList"); // 清空臨時搜索結果
+	const data = getData('msg/result');
+	const messageList = data.messages ? data.messages : [];
+
+	let text = msg.text + '';
+	if (text.startsWith("/search")) {
+		text = "";
+		return;
+	}
+
+	if (text) {
+		const msgsWithTarget = messageList.filter(msgItem => {
+			const textEntities = msgItem.text_entities || [];
+			const one = textEntities.find(entity => entity.text.includes(text));
+			if (one) {
+				return true;
+			} else {
+				return false;
+			}
+		})
+
+		await saveData({
+			list: msgsWithTarget,
+			text
+		}, "tempMsgList"); // 將臨時搜索結果保存到tempMsgList.json文件裏
+		queryTempMsg(msg.chat.id);
+
+	}
+});
+
 /**
  * 從臨時搜索結果裏獲取出分頁來展示
  * @param { Number | String } chatId 對話id，即用戶和bot之間的聊天對話id

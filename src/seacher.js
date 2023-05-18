@@ -183,6 +183,7 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 		// 發送搜索的分頁結果
 		bot.sendMessage(chatId, content, {
 			parse_mode: "HTML",
+			disable_web_page_preview: true,
 			reply_markup: {
 				inline_keyboard: [
 					inlineKeyboard
@@ -195,6 +196,7 @@ const queryTempMsg = async (chatId, messageId = "no_messageId", param = {
 			chat_id: chatId,
 			message_id: messageId,
 			parse_mode: "HTML",
+			disable_web_page_preview: true,
 			reply_markup: {
 				inline_keyboard: [
 					inlineKeyboard
@@ -241,7 +243,7 @@ const generatePageNumberList = (page, size, totalCount) => {
 			result = pageNumberList.slice(page - 4 - 1, page + 4);
 		}
 	}
-	if(totalCount <= 10) {
+	if (totalCount <= 10) {
 		// 條數小於10，便無需展示翻頁
 		result = [];
 	}
